@@ -19,7 +19,7 @@ public:
 	{
 		return str;
 	}
-	void set_str(const char* str)
+	void set_str(const char* str) 
 	{
 		delete[] this->str;
 		this->size = strlen(str) + 1;
@@ -27,9 +27,10 @@ public:
 		strcpy_s(this->str, size, str);
 	}
 	//		Constructors:
-	String(int size = 80) :size(size)
+	explicit String(int size = 80) :size(size), str(new char[size] {})
 	{
-		this->str = new char[size] {};
+		// this-> size = size;
+		//this->str = new char[size] {};
 		std::cout << "DefaultConstructor:\t" << this << std::endl;
 		/*std::cout << "Size:\t" << size << std::endl;*/
 	}
@@ -45,18 +46,18 @@ public:
 	{
 		return *this = *this + other;
 	}
-	String(const char* str)
+	String(const char* str) :String(strlen(str)+1)
 	{
 		this->size = strlen(str) + 1;
 		this->str = new char[size];
 		for (int i = 0; i < size; i++)	this->str[i] = str[i];
 		std::cout << "Constructor:\t" << this << std::endl;
 	}
-	String(const String& other) :size(other.size), str(new char[size] {})
+	String(const String& other) :String(other.str)
 	{
 		//this->str = new char[size];
-		for (int i = 0; i < size; i++)	this->str[i] = other.str[i];
-		std::cout << "CopyConstructor:\t" << this << std::endl;
+		//for (int i = 0; i < size; i++)	this->str[i] = other.str[i];
+		//std::cout << "CopyConstructor:\t" << this << std::endl;
 	}
 	~String()
 	{
@@ -125,7 +126,7 @@ String operator+(const String& str1, const String& str2)
 	strcat(newstring.get_str(), str1.get_str());
 	strcat(newstring.get_str(), str2.get_str());
 	return newstring;*/
-	String cat = str1.get_size() + str2.get_size() - 1;
+	String cat ( str1.get_size() + str2.get_size() - 1);
 	for (int i = 0; i < str1.get_size(); i++)cat[i] = str1[i];
 	for (int i = 0; i < str2.get_size(); i++)cat[i + str1.get_size() - 1] = str2[i];
 	return cat;
